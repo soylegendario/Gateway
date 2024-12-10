@@ -1,0 +1,3 @@
+
+GET http://localhost:5157/micro1/product/1
+Authorization: Basic YWRtaW46YWRtaW4=
