@@ -2,7 +2,10 @@
 
 namespace Gateway.Api.Middleware;
 
-public class RoutingMiddleware(RequestDelegate next, IOptions<RoutingOptions> routingOptions)
+public class RoutingMiddleware(
+    RequestDelegate next, 
+    IOptions<RoutingOptions> routingOptions,
+    IHttpClientFactory httpClientFactory)
 {
     private readonly Dictionary<string, string> _routes = routingOptions.Value.Routes;
 
@@ -48,7 +51,7 @@ public class RoutingMiddleware(RequestDelegate next, IOptions<RoutingOptions> ro
             requestMessage.Headers.TryAddWithoutValidation(header.Key, header.Value.ToArray());
         }
 
-        using var httpClient = new HttpClient();
+        using var httpClient = httpClientFactory.CreateClient();
         var responseMessage = await httpClient.SendAsync(requestMessage);
 
         context.Response.StatusCode = (int)responseMessage.StatusCode;

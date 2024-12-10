@@ -9,6 +9,7 @@ builder.Services
 builder.Services.AddAuthorization();
 builder.Services.Configure<RoutingOptions>(builder.Configuration.GetSection("Routing"));
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 app.UseHttpsRedirection();
